@@ -18,3 +18,4 @@ Wikipedia-API==0.7.1
 nltk==3.9.1
 google-cloud-aiplatform
 google-cloud-logging
+streamlit==1.40.2
