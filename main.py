@@ -11,6 +11,8 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
 
 
 def setup_rag_knowledge_base(topic, max_pages):
@@ -25,7 +27,7 @@ def setup_rag_knowledge_base(topic, max_pages):
         json.dump(data, file, indent=4)
         
     # Step 3: Load the models for text, table and image processing    
-    text_model, tapas_tokenizer, tapas_model, blip_processor, blip_model = initialize_models()
+    text_model, tapas_tokenizer, tapas_model, blip_processor, blip_model = initialize_models('all')
 
     text_embeddings, text_metadata = embed_text(data, text_model, chunk_size=5, overlap_size=0)
     table_embeddings, table_metadata = embed_tables(data, text_model)
@@ -47,7 +49,7 @@ def setup_rag_knowledge_base(topic, max_pages):
 
 def retrieve_info(user_query, metadata):
     
-    text_model, tapas_tokenizer, tapas_model, blip_processor, blip_model = initialize_models()
+    text_model = initialize_models(type='text')
     
     text_index = load_faiss_index("vector_store/text_index.faiss")
     table_index = load_faiss_index("vector_store/table_index.faiss")
@@ -75,7 +77,7 @@ def formulate_answer(user_query, retrieved_context):
     raw_model_output = generate_answer(user_query, retrieved_context)
     model_output = raw_model_output.split(user_query)[1].strip()
     
-    return raw_model_output
+    return model_output
 
 
 def display_top_pages(user_query, wikipedia_data, text_model):
@@ -94,16 +96,14 @@ def display_top_pages(user_query, wikipedia_data, text_model):
 
 if __name__ == "__main__":
     pass
-    # setup_rag_knowledge_base("Spiderman", 5)
-    # text_model, tapas_tokenizer, tapas_model, blip_processor, blip_model = initialize_models()
-    # user_query = "Who is Peter Parker?"
-    # # text_results, table_results, image_results = retrieve_info(user_query, load_data("data/metadata.json"))
-    # # raw_model_output = formulate_answer(user_query, text_results[0])
+    # setup_rag_knowledge_base("Google", 25)
+#     user_query = "What is Google Maps?"
+#     text_results, table_results, image_results, text_model = retrieve_info(user_query, load_data("data/metadata.json"))
+#     raw_model_output = formulate_answer(user_query, " ".join(text_results[:2]))
     
-    # # print(raw_model_output)
+#     print(raw_model_output)
     
-    # page_rank_dict = display_top_pages(user_query, load_data("data/wikipedia.json"), text_model)
-    
-    # print(page_rank_dict)
+#     page_rank_dict = display_top_pages(user_query, load_data("data/wikipedia.json"), text_model)
+#     print(page_rank_dict)
     
     

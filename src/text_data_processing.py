@@ -20,7 +20,7 @@ def embed_text(data, text_model, chunk_size=5, overlap_size=2):
         chunks = chunk_text_by_sentences(entry['content'], chunk_size, overlap_size)
         all_chunks.extend(chunks)
 
-    # Generate aaaembeddings for all chunks
+    # Generate embeddings for all chunks
     text_embeddings = text_model.encode(all_chunks, convert_to_tensor=False)
     return np.array(text_embeddings), all_chunks
 

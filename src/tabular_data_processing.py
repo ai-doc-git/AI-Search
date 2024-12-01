@@ -13,7 +13,7 @@ def embed_tables_with_tapas(data, tapas_tokenizer, tapas_model):
                 if len(df) <= 3:
                     continue  # Skip to the next table
 
-                inputs = tapas_tokenizer(table=df, queries=["What does this table mean?"], padding="max_length", truncation=True, return_tensors="pt")
+                inputs = tapas_tokenizer(table=df, queries=["Summarize this table."], padding="max_length", truncation=True, return_tensors="pt")
 
                 # Generate embeddings
                 outputs = tapas_model(**inputs)

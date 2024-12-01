@@ -4,13 +4,17 @@ from sentence_transformers import SentenceTransformer
 from transformers import TapasTokenizer, TapasModel, BlipProcessor, BlipForConditionalGeneration, pipeline
 
 
-def initialize_models():
-    text_model = SentenceTransformer('all-MiniLM-L6-v2')  # Efficient open-source text embedding
-    tapas_tokenizer = TapasTokenizer.from_pretrained("google/tapas-base-finetuned-wtq")
-    tapas_model = TapasModel.from_pretrained("google/tapas-base-finetuned-wtq")
-    blip_processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-    blip_model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
-    return text_model, tapas_tokenizer, tapas_model, blip_processor, blip_model
+def initialize_models(type='text'):
+    if type == 'text':
+        text_model = SentenceTransformer('all-MiniLM-L6-v2')
+        return text_model
+    else:
+        text_model = SentenceTransformer('all-MiniLM-L6-v2')
+        tapas_tokenizer = TapasTokenizer.from_pretrained("google/tapas-base-finetuned-wtq")
+        tapas_model = TapasModel.from_pretrained("google/tapas-base-finetuned-wtq")
+        blip_processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+        blip_model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+        return text_model, tapas_tokenizer, tapas_model, blip_processor, blip_model
 
 
 
